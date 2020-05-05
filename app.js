@@ -111,10 +111,27 @@ function setupAliens(num) {
     }
 }
 
+
+function randomColor() {
+    return "#" + Math.random().toString(16).substr(-6);
+}
+
 function alienMaker(row, tempWidth) {
     console.log(row);
     let div = document.createElement("div");
     div.classList.add("alien");
+    div.style.backgroundColor = randomColor();
+    let eye1 = document.createElement("span");
+    eye1.classList.add("eye");
+    eye1.style.left = "10px";
+    div.appendChild(eye1);
+    let eye2 = document.createElement("span");
+    eye2.classList.add("eye");
+    eye2.style.right = "10px";
+    div.appendChild(eye2);
+    let mouth = document.createElement("span");
+    mouth.classList.add("mouth");
+    div.appendChild(mouth);
     div.style.width = tempWidth + "px";
     div.xpos = Math.floor(row.x);
     div.ypos = Math.floor(row.y);
