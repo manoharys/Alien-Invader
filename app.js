@@ -46,19 +46,19 @@ function pressOff(e) {
 }
 
 function update() {
-    if (keys.ArrowUp) {
-        player.y -= player.speed;
-    }
-    if (keys.ArrowDown) {
-        player.y += player.speed;
-    }
-    if (keys.ArrowLeft) {
+    // if (keys.ArrowUp) {
+    //     player.y -= player.speed;
+    // }
+    // if (keys.ArrowDown) {
+    //     player.y += player.speed;
+    // }
+    if (keys.ArrowLeft && player.x > 0) {
         player.x -= player.speed;
     }
-    if (keys.ArrowRight) {
+    if (keys.ArrowRight && player.x < (container.offsetWidth - myShip.offsetWidth)) {
         player.x += player.speed;
     }
     myShip.style.left = player.x + "px";
-    myShip.style.top = player.y + "px";
+    //myShip.style.top = player.y + "px";
     window.requestAnimationFrame(update);
 }
