@@ -8,4 +8,6 @@
   
   Use Space bar to hit aliens
   
-  
+ # Live demo
+ 
+  <a href = "https://manoharys.github.io/Alien-Invader/"> play here</a>
