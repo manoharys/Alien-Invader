@@ -11,7 +11,7 @@ let containerDimension = container.getBoundingClientRect();
 //Player Object
 let player = {
     score: 0,
-    speed: 0,
+    speed: 3,
     aliendSpeed: 0,
 }
 
@@ -24,6 +24,11 @@ function start() {
     myShip.classList.remove('hide')
     fireme.classList.remove('hide')
     console.log("game started");
+    player.x = myShip.offsetLeft;
+    player.y = myShip.offsetTop;
+    console.log(player);
+    window.requestAnimationFrame(update);
+
 }
 
 //KeyBoard Events
@@ -38,4 +43,22 @@ function pressOn(e) {
 function pressOff(e) {
     keys[e.code] = false;
     console.log(keys);
+}
+
+function update() {
+    if (keys.ArrowUp) {
+        player.y -= player.speed;
+    }
+    if (keys.ArrowDown) {
+        player.y += player.speed;
+    }
+    if (keys.ArrowLeft) {
+        player.x -= player.speed;
+    }
+    if (keys.ArrowRight) {
+        player.x += player.speed;
+    }
+    myShip.style.left = player.x + "px";
+    myShip.style.top = player.y + "px";
+    window.requestAnimationFrame(update);
 }
