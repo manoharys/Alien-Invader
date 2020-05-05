@@ -65,25 +65,3 @@
     border-radius: 10px;
 }
 
-.eye {
-    position: absolute;
-    width: 20px;
-    border-radius: 25%;
-    color: black;
-    height: 20px;
-    background-color: aliceblue;
-}
-
-.eye::after {
-    content: "\2022";
-}
-
-.mouth {
-    position: absolute;
-    width: 70%;
-    height: 2px;
-    bottom: 10px;
-    left: 10%;
-    border: 4px dotted white;
-    background-color: black;
-}
