@@ -13,6 +13,7 @@ let player = {
     score: 0,
     speed: 3,
     aliendSpeed: 0,
+    fire: false
 }
 
 //Objects which tracks keyPresses
@@ -22,7 +23,8 @@ let keys = {};
 function start() {
     startBtn.classList.add('hide');
     myShip.classList.remove('hide')
-    fireme.classList.remove('hide')
+    //fireme.classList.remove('hide')
+    fireme.fire = false;
     console.log("game started");
     player.x = myShip.offsetLeft;
     player.y = myShip.offsetTop;
@@ -45,13 +47,25 @@ function pressOff(e) {
     console.log(keys);
 }
 
+
 function update() {
-    // if (keys.ArrowUp) {
-    //     player.y -= player.speed;
-    // }
+    if (player.fire) {
+        if (fireme.ypos > 0) {
+            fireme.ypos -= 15;
+            fireme.style.top = fireme.ypos + "px";
+        } else {
+            player.fire = false;
+            fireme.classList.add('hide');
+            fireme.style.top = (containerDimension + 100) + 'px';
+        }
+    }
+    if (keys.ArrowUp || keys.Space) {
+        addShoot();
+    }
     // if (keys.ArrowDown) {
     //     player.y += player.speed;
     // }
+
     if (keys.ArrowLeft && player.x > 0) {
         player.x -= player.speed;
     }
@@ -61,4 +75,15 @@ function update() {
     myShip.style.left = player.x + "px";
     //myShip.style.top = player.y + "px";
     window.requestAnimationFrame(update);
+}
+
+
+//Function which fires 
+function addShoot() {
+    player.fire = true;
+    fireme.classList.remove("hide");
+    fireme.xpos = (myShip.offsetLeft + (myShip.offsetWidth / 2));
+    fireme.ypos = myShip.offsetTop - 10;
+    fireme.style.left = fireme.xpos + "px";
+    fireme.style.top = fireme.ypos + "px";
 }

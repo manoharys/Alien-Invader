@@ -22,7 +22,7 @@
     position: absolute;
     bottom: 9%;
     width: 200px;
-    height: 50px;
+    height: 30px;
     left: 20%;
     background: white;
 }
@@ -31,10 +31,11 @@
     position: absolute;
     top: 0;
     left: 10%;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background-color: red;
+
 }
 
 .container {
