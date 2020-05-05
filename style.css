@@ -4,6 +4,9 @@
     padding: 0;
 }
 
+body{
+    overflow-x: hidden;
+}
 
 .startBtn {
     width: 100%;

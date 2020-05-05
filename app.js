@@ -12,7 +12,7 @@ let containerDim = container.getBoundingClientRect();
 let player = {
     score: 0,
     speed: 3,
-    alienSpeed: 30,
+    alienSpeed: 40,
     gameOver: true,
     fire: false
 }
@@ -54,17 +54,29 @@ function start() {
 
 
 
-
 function update() {
     if (!player.gameOver) {
         let tempAliens = document.querySelectorAll(".alien");
+        if (tempAliens.length == 0) {
+            player.gameOver = true;
+            messageOutput("You Won");
+        }
         for (let x = tempAliens.length - 1; x > -1; x--) {
             let el = tempAliens[x];
-            if (el.xpos > ((containerDim.width-50) - el.offsetWidth) || el.xpos < containerDim.left) {
+            if (isCollide(el, fireme)) {
+                player.alienSpeed++;
+                player.score++;
+                scoreOutput.textContent = player.score;
+                player.fire = false;
+                fireme.classList.add("hide");
+                el.parentNode.removeChild(el);
+                fireme.ypos = containerDim.height + 100;
+            }
+            if (el.xpos > (containerDim.width - el.offsetWidth) || el.xpos < containerDim.left) {
                 el.directionMove *= -1;
                 el.ypos += 40;
                 if (el.ypos > (myShip.offsetTop - 50)) {
-                    console.log("Game Over");
+            
                     player.gameOver = true;
                     gameOver();
                 }
@@ -169,4 +181,12 @@ function clearAliens() {
     for (let x = 0; x < tempAliens.length; x++) {
         tempAliens[x].parentNode.removeChild(tempAliens[x]);
     }
+}
+
+
+function isCollide(a, b) {
+    let aRect = a.getBoundingClientRect();
+    let bRect = b.getBoundingClientRect();
+    return !(
+        (aRect.bottom < bRect.top) || (aRect.top > bRect.bottom) || (aRect.right < bRect.left) || (aRect.left > bRect.right))
 }
