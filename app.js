@@ -15,14 +15,14 @@ let keys = {
 let player = {
     score: 0,
     speed: 3,
-    alienSpeed: 40,
+    alienSpeed: 30,
     gameOver: true,
     fire: false
 }
 
 gameMessage.addEventListener('click', start);
 startBtn.addEventListener('click', start);
-document.addEventListener('keypress',start);
+
 //Getting container dimension..
 let containerDim = container.getBoundingClientRect();
 
