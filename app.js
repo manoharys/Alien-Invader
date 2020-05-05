@@ -6,13 +6,13 @@ const myShip = document.querySelector('.myShip');
 startBtn.addEventListener('click', start);
 
 //Getting container dimension..
-let containerDimension = container.getBoundingClientRect();
+let containerDim = container.getBoundingClientRect();
 
 //Player Object
 let player = {
     score: 0,
     speed: 3,
-    aliendSpeed: 0,
+    alienSpeed: 10,
     gameOver: true,
     fire: false
 }
@@ -41,7 +41,7 @@ function start() {
         startBtn.classList.add('hide');
         myShip.classList.remove('hide')
         //fireme.classList.remove('hide')
-        setupAliens(59);
+        setupAliens(9);
         fireme.fire = false;
         console.log("game started");
         player.x = myShip.offsetLeft;
@@ -55,6 +55,17 @@ function start() {
 
 
 function update() {
+    let tempAliens = document.querySelectorAll(".alien");
+    for (let x = tempAliens.length - 1; x > -1; x--) {
+        let el = tempAliens[x];
+        if (el.xpos > (containerDim.width - el.offsetWidth-50) || el.xpos < containerDim.left) {
+            el.directionMove *= -1;
+            el.ypos += 40;
+        }
+        el.xpos += (player.alienSpeed * el.directionMove);
+        el.style.left = el.xpos + "px";
+        el.style.top = el.ypos + "px";
+    }
     if (player.fire) {
         if (fireme.ypos > 0) {
             fireme.ypos -= 25;
@@ -62,7 +73,7 @@ function update() {
         } else {
             player.fire = false;
             fireme.classList.add('hide');
-            fireme.style.top = (containerDimension + 100) + 'px';
+            fireme.style.top = (containerDim + 100) + 'px';
         }
     }
     if (keys.ArrowUp || keys.Space) {
@@ -96,25 +107,41 @@ function addShoot() {
 
 function setupAliens(num) {
     let tempWidth = 70;
-    let lastCol = containerDimension.width - tempWidth;
+    let lastCol = containerDim.width - tempWidth;
     let row = {
-        x: containerDimension.left,
+        x: containerDim.left + 50,
         y: 50
     }
     for (let x = 0; x < num; x++) {
         if (row.x > (lastCol - tempWidth)) {
             row.y += 70;
-            row.x = containerDimension.left
+            row.x = containerDim.left + 50
         }
         alienMaker(row, tempWidth);
         row.x += tempWidth + 20;
     }
 }
 
+function randomColor() {
+    return "#" + Math.random().toString(16).substr(-6);
+}
+
 function alienMaker(row, tempWidth) {
     console.log(row);
     let div = document.createElement("div");
     div.classList.add("alien");
+    div.style.backgroundColor = randomColor();
+    let eye1 = document.createElement("span");
+    eye1.classList.add("eye");
+    eye1.style.left = "10px";
+    div.appendChild(eye1);
+    let eye2 = document.createElement("span");
+    eye2.classList.add("eye");
+    eye2.style.right = "10px";
+    div.appendChild(eye2);
+    let mouth = document.createElement("span");
+    mouth.classList.add("mouth");
+    div.appendChild(mouth);
     div.style.width = tempWidth + "px";
     div.xpos = Math.floor(row.x);
     div.ypos = Math.floor(row.y);
