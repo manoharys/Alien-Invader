@@ -13,25 +13,12 @@ let player = {
     score: 0,
     speed: 3,
     aliendSpeed: 0,
+    gameOver: true,
     fire: false
 }
 
 //Objects which tracks keyPresses
 let keys = {};
-
-//Function which starts gamePlay
-function start() {
-    startBtn.classList.add('hide');
-    myShip.classList.remove('hide')
-    //fireme.classList.remove('hide')
-    fireme.fire = false;
-    console.log("game started");
-    player.x = myShip.offsetLeft;
-    player.y = myShip.offsetTop;
-    console.log(player);
-    window.requestAnimationFrame(update);
-
-}
 
 //KeyBoard Events
 document.addEventListener('keydown', pressOn);
@@ -48,10 +35,29 @@ function pressOff(e) {
 }
 
 
+//Function which starts gamePlay
+function start() {
+    if (player.gameOver) {
+        startBtn.classList.add('hide');
+        myShip.classList.remove('hide')
+        //fireme.classList.remove('hide')
+        setupAliens(59);
+        fireme.fire = false;
+        console.log("game started");
+        player.x = myShip.offsetLeft;
+        player.y = myShip.offsetTop;
+        console.log(player);
+        window.requestAnimationFrame(update);
+    }
+}
+
+
+
+
 function update() {
     if (player.fire) {
         if (fireme.ypos > 0) {
-            fireme.ypos -= 15;
+            fireme.ypos -= 25;
             fireme.style.top = fireme.ypos + "px";
         } else {
             player.fire = false;
@@ -60,12 +66,10 @@ function update() {
         }
     }
     if (keys.ArrowUp || keys.Space) {
-        addShoot();
+        if (!player.fire) {
+            addShoot();
+        }
     }
-    // if (keys.ArrowDown) {
-    //     player.y += player.speed;
-    // }
-
     if (keys.ArrowLeft && player.x > 0) {
         player.x -= player.speed;
     }
@@ -86,4 +90,37 @@ function addShoot() {
     fireme.ypos = myShip.offsetTop - 10;
     fireme.style.left = fireme.xpos + "px";
     fireme.style.top = fireme.ypos + "px";
+}
+
+//function which creats aleins
+
+function setupAliens(num) {
+    let tempWidth = 70;
+    let lastCol = containerDimension.width - tempWidth;
+    let row = {
+        x: containerDimension.left,
+        y: 50
+    }
+    for (let x = 0; x < num; x++) {
+        if (row.x > (lastCol - tempWidth)) {
+            row.y += 70;
+            row.x = containerDimension.left
+        }
+        alienMaker(row, tempWidth);
+        row.x += tempWidth + 20;
+    }
+}
+
+function alienMaker(row, tempWidth) {
+    console.log(row);
+    let div = document.createElement("div");
+    div.classList.add("alien");
+    div.style.width = tempWidth + "px";
+    div.xpos = Math.floor(row.x);
+    div.ypos = Math.floor(row.y);
+    div.style.left = div.xpos + "px";
+    div.style.top = div.ypos + "px";
+    div.directionMove = 1;
+    container.appendChild(div);
+    console.log(div);
 }
