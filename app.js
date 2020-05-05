@@ -12,7 +12,7 @@ let containerDim = container.getBoundingClientRect();
 let player = {
     score: 0,
     speed: 3,
-    alienSpeed: 10,
+    alienSpeed: 30,
     gameOver: true,
     fire: false
 }
@@ -41,8 +41,9 @@ function start() {
         startBtn.classList.add('hide');
         myShip.classList.remove('hide')
         //fireme.classList.remove('hide')
+        clearAliens();
         setupAliens(9);
-        fireme.fire = false;
+        player.gameOver = false;
         console.log("game started");
         player.x = myShip.offsetLeft;
         player.y = myShip.offsetTop;
@@ -55,43 +56,49 @@ function start() {
 
 
 function update() {
-    let tempAliens = document.querySelectorAll(".alien");
-    for (let x = tempAliens.length - 1; x > -1; x--) {
-        let el = tempAliens[x];
-        if (el.xpos > (containerDim.width - el.offsetWidth-50) || el.xpos < containerDim.left) {
-            el.directionMove *= -1;
-            el.ypos += 40;
+    if (!player.gameOver) {
+        let tempAliens = document.querySelectorAll(".alien");
+        for (let x = tempAliens.length - 1; x > -1; x--) {
+            let el = tempAliens[x];
+            if (el.xpos > ((containerDim.width-50) - el.offsetWidth) || el.xpos < containerDim.left) {
+                el.directionMove *= -1;
+                el.ypos += 40;
+                if (el.ypos > (myShip.offsetTop - 50)) {
+                    console.log("Game Over");
+                    player.gameOver = true;
+                    gameOver();
+                }
+            }
+            el.xpos += (player.alienSpeed * el.directionMove);
+            el.style.left = el.xpos + "px";
+            el.style.top = el.ypos + "px";
         }
-        el.xpos += (player.alienSpeed * el.directionMove);
-        el.style.left = el.xpos + "px";
-        el.style.top = el.ypos + "px";
-    }
-    if (player.fire) {
-        if (fireme.ypos > 0) {
-            fireme.ypos -= 25;
-            fireme.style.top = fireme.ypos + "px";
-        } else {
-            player.fire = false;
-            fireme.classList.add('hide');
-            fireme.style.top = (containerDim + 100) + 'px';
+        if (player.fire) {
+            if (fireme.ypos > 0) {
+                fireme.ypos -= 25;
+                fireme.style.top = fireme.ypos + "px";
+            } else {
+                player.fire = false;
+                fireme.classList.add('hide');
+                fireme.style.top = (containerDim + 100) + 'px';
+            }
         }
-    }
-    if (keys.ArrowUp || keys.Space) {
-        if (!player.fire) {
-            addShoot();
+        if (keys.ArrowUp || keys.Space) {
+            if (!player.fire) {
+                addShoot();
+            }
         }
+        if (keys.ArrowLeft && player.x > 0) {
+            player.x -= player.speed;
+        }
+        if (keys.ArrowRight && player.x < (container.offsetWidth - myShip.offsetWidth)) {
+            player.x += player.speed;
+        }
+        myShip.style.left = player.x + "px";
+        //myShip.style.top = player.y + "px";
+        window.requestAnimationFrame(update);
     }
-    if (keys.ArrowLeft && player.x > 0) {
-        player.x -= player.speed;
-    }
-    if (keys.ArrowRight && player.x < (container.offsetWidth - myShip.offsetWidth)) {
-        player.x += player.speed;
-    }
-    myShip.style.left = player.x + "px";
-    //myShip.style.top = player.y + "px";
-    window.requestAnimationFrame(update);
 }
-
 
 //Function which fires 
 function addShoot() {
@@ -150,4 +157,16 @@ function alienMaker(row, tempWidth) {
     div.directionMove = 1;
     container.appendChild(div);
     console.log(div);
+}
+
+function gameOver() {
+    startBtn.style.display = "block";
+    startBtn.innerHTML = "Restart New Game";
+}
+
+function clearAliens() {
+    let tempAliens = document.querySelectorAll(".alien");
+    for (let x = 0; x < tempAliens.length; x++) {
+        tempAliens[x].parentNode.removeChild(tempAliens[x]);
+    }
 }
