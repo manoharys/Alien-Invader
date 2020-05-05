@@ -5,11 +5,11 @@ const scoreOutput = document.querySelector('.score');
 const myShip = document.querySelector('.myShip');
 const gameMessage = document.querySelector('.gameMessage');
 
-gameMessage.addEventListener('click', start);
-startBtn.addEventListener('click', start);
 
-//Getting container dimension..
-let containerDim = container.getBoundingClientRect();
+//Objects which tracks keyPresses
+let keys = {
+    Enter : false
+};
 
 //Player Object
 let player = {
@@ -20,8 +20,12 @@ let player = {
     fire: false
 }
 
-//Objects which tracks keyPresses
-let keys = {};
+gameMessage.addEventListener('click', start);
+startBtn.addEventListener('click', start);
+document.addEventListener('keypress',start);
+//Getting container dimension..
+let containerDim = container.getBoundingClientRect();
+
 
 //KeyBoard Events
 document.addEventListener('keydown', pressOn);
@@ -29,6 +33,7 @@ document.addEventListener('keyup', pressOff);
 
 function pressOn(e) {
     keys[e.code] = true;
+
 }
 
 function pressOff(e) {
@@ -48,10 +53,10 @@ function start() {
         clearAliens();
         setupAliens(9);
         player.gameOver = false;
-        console.log("game started");
+
         player.x = myShip.offsetLeft;
         player.y = myShip.offsetTop;
-        console.log(player);
+
         window.requestAnimationFrame(update);
     }
 }
@@ -155,7 +160,7 @@ function randomColor() {
 }
 
 function alienMaker(row, tempWidth) {
-    console.log(row);
+
     let div = document.createElement("div");
     div.classList.add("alien");
     div.style.backgroundColor = randomColor();
@@ -177,12 +182,13 @@ function alienMaker(row, tempWidth) {
     div.style.top = div.ypos + "px";
     div.directionMove = 1;
     container.appendChild(div);
-    console.log(div);
+
 }
 
 function gameOver() {
     gameMessage.classList.remove('hide');
     gameMessage.innerHTML = "Restart Game";
+ 
 }
 
 function clearAliens() {
