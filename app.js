@@ -3,6 +3,9 @@ const container = document.querySelector('.container');
 const fireme = document.querySelector('.fireme');
 const scoreOutput = document.querySelector('.score');
 const myShip = document.querySelector('.myShip');
+const gameMessage = document.querySelector('.gameMessage');
+
+gameMessage.addEventListener('click', start);
 startBtn.addEventListener('click', start);
 
 //Getting container dimension..
@@ -26,12 +29,10 @@ document.addEventListener('keyup', pressOff);
 
 function pressOn(e) {
     keys[e.code] = true;
-    console.log(keys);
 }
 
 function pressOff(e) {
     keys[e.code] = false;
-    console.log(keys);
 }
 
 
@@ -39,7 +40,10 @@ function pressOff(e) {
 function start() {
     if (player.gameOver) {
         startBtn.classList.add('hide');
+        scoreOutput.classList.remove('hide');
         myShip.classList.remove('hide')
+        scoreOutput.innerHTML = "";
+        gameMessage.classList.add('hide');
         //fireme.classList.remove('hide')
         clearAliens();
         setupAliens(9);
@@ -56,13 +60,16 @@ function start() {
 
 function update() {
     if (!player.gameOver) {
+        scoreOutput.innerHTML = "";
         let tempAliens = document.querySelectorAll(".alien");
         if (tempAliens.length == 0) {
             player.gameOver = true;
-            messageOutput("You Won");
+
         }
+
         for (let x = tempAliens.length - 1; x > -1; x--) {
             let el = tempAliens[x];
+
             if (isCollide(el, fireme)) {
                 player.alienSpeed++;
                 player.score++;
@@ -71,12 +78,14 @@ function update() {
                 fireme.classList.add("hide");
                 el.parentNode.removeChild(el);
                 fireme.ypos = containerDim.height + 100;
+                scoreOutput.innerHTML = "HIT";
             }
+
             if (el.xpos > (containerDim.width - el.offsetWidth) || el.xpos < containerDim.left) {
                 el.directionMove *= -1;
                 el.ypos += 40;
                 if (el.ypos > (myShip.offsetTop - 50)) {
-            
+
                     player.gameOver = true;
                     gameOver();
                 }
@@ -172,8 +181,8 @@ function alienMaker(row, tempWidth) {
 }
 
 function gameOver() {
-    startBtn.style.display = "block";
-    startBtn.innerHTML = "Restart New Game";
+    gameMessage.classList.remove('hide');
+    gameMessage.innerHTML = "Restart Game";
 }
 
 function clearAliens() {

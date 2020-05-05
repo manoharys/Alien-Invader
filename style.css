@@ -4,7 +4,7 @@
     padding: 0;
 }
 
-body{
+body {
     overflow-x: hidden;
 }
 
@@ -47,11 +47,7 @@ body{
     background-color: black;
 }
 
-.hide {
-    display: none;
-}
 
-  
 .alien {
     position: absolute;
     display: inline-block;
@@ -90,3 +86,33 @@ body{
     border: 4px dotted white;
     background-color: black;
 }
+
+.score {
+    position: absolute;
+    top: 10px;
+    left: 40%;
+    color: red;
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+.gameMessage {
+    position: absolute;
+    width: 100%;
+    height: 40vh;
+    top: 200px;
+    background: #00f2fa4d;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.hide {
+    display: none;
+}
+
