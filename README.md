@@ -1,12 +1,12 @@
 # Alien-Invader
 
- Shoot the Aliens before the kill you👽👾👾👽
+ ##### Shoot the Aliens before they kill you👽👾👾👽
 
 # Game-Play
  
-  Use Arrow keys for movements
+ ##### Use Arrow keys for movements
   
-  Use Space bar to hit aliens
+ ##### Use Space bar to hit aliens
   
  # Live demo
  
