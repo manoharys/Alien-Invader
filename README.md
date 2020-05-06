@@ -11,3 +11,5 @@
  # Live demo
  
   <a href = "https://manoharys.github.io/Alien-Invader/"> play here</a>
+
+<img src = 'https://github.com/manoharys/Alien-Invader/blob/master/preview.gif'>
